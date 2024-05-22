@@ -1,0 +1,20 @@
+{
+    "name": "aziendeglobal/laravel-dlocal",
+    "description": "dLocal for Laravel by Aziende Global",
+    "keywords": ["laravel", "dlocal", "sdk"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aziende Global",
+            "email": "aziende.global@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "AziendeGlobal\\LaravelDLocal\\" : "src/"
+        }
+    }
+}
