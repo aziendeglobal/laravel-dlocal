@@ -149,7 +149,7 @@ class DLOCALRestClient
 
         $API_BASE_URL = self::API_BASE_URL;
 
-        if (!isset($request["sandbox"]) && $request["sandbox"]) {
+        if (isset($request["sandbox"]) && $request["sandbox"]) {
             $API_BASE_URL = self::API_BASE_URL_SANDBOX;
         }
 
