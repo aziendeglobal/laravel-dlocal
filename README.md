@@ -1,5 +1,5 @@
 # DLOCAL FOR LARAVEL
-<p align="center"><img src="https://aziende.global/img/dlocal-logo.png"></p>
+<p align="center"><img src="https://aziende.global/img/dlocal-logo.jpg"></p>
 
 <p align="center"><img src="https://aziende.global/img/laravel-logo.png"></p>
 
