@@ -66,44 +66,37 @@ class DLOCAL
         return $this->sandbox;
     }
 
-
-
     /**
      * Get Signature 
      */
 
-    public function get_signature()
+    public function get_signature($data)
     {
-        $key = $this->x_login . $this->x_date . $this->body;
+        $key = $this->x_login . $this->x_date . json_encode($data);
         $signature = hash_hmac("sha256", $key, $this->secret_key);
 
         return $signature;
     }
-
-
 
     /**
      * Create a payment
      * @param array $data
      * @return array(json)
      */
-    public function create_payment($data)
+    public function create_payment($data, $sandbox = false)
     {
-
-
         $request = array(
             "uri" => "/payments",
-            "sandbox" => $this->sandbox,
+            "sandbox" => $sandbox,
             "headers" => $this->headers,
             "headers_custom" => array(
-                "signature" => $this->get_signature(),
+                "signature" => $this->get_signature($data),
             ),
             "data" => $data
         );
 
-
-
         $result = DLOCALRestClient::post($request);
+
         return $result;
     }
 
@@ -112,14 +105,14 @@ class DLOCAL
      * @param array $data
      * @return array(json)
      */
-    public function create_secure_payment($data)
+    public function create_secure_payment($data, $sandbox = false)
     {
         $request = array(
             "uri" => "/secure_payments",
-            "sandbox" => $this->sandbox,
+            "sandbox" => $sandbox,
             "headers" => $this->headers,
             "headers_custom" => array(
-                "signature" => $this->get_signature(),
+                "signature" => $this->get_signature($data),
             ),
             "data" => $data
         );
@@ -127,8 +120,6 @@ class DLOCAL
         $result = DLOCALRestClient::post($request);
         return $result;
     }
-
-
 
 
     /* **************************************************************************************** */
@@ -170,8 +161,8 @@ class DLOCALRestClient
 
         if (isset($request["headers"]) && is_array($request["headers"])) {
             foreach ($request["headers"] as $h => $v) {
-                $h = strtolower($h);
-                $v = strtolower($v);
+                //$h = strtolower($h);
+                //$v = strtolower($v);
 
                 if ($h == "content-type") {
                     $default_content_type = false;
