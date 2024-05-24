@@ -53,7 +53,7 @@ class DLOCAL
         );
 
         if ($this->api_key) {
-            $this->headers["X-Idempotency-Key"] = $this->api_key;
+            //$this->headers["X-Idempotency-Key"] = $this->api_key;
         }
     }
 
@@ -70,9 +70,12 @@ class DLOCAL
      * Get Signature 
      */
 
-    public function get_signature($data)
+    public function get_signature($data = '')
     {
-        $key = $this->x_login . $this->x_date . json_encode($data);
+        if ($data) {
+            $data = json_encode($data);
+        }
+        $key = $this->x_login . $this->x_date . $data;
         $signature = hash_hmac("sha256", $key, $this->secret_key);
 
         return $signature;
@@ -99,7 +102,7 @@ class DLOCAL
         $result = DLOCALRestClient::post($request);
 
         return $result;
-    }   
+    }
 
     /**
      * Create a secure payment
@@ -130,13 +133,14 @@ class DLOCAL
      * @param boolean $sandbox
      * @return array(json)
      */
-    public function get_payment($id, $sandbox = false) {
+    public function get_payment($id, $sandbox = false)
+    {
         $request = array(
             "uri" => "/payments/{$id}",
             "sandbox" => $sandbox,
             "headers" => $this->headers,
             "headers_custom" => array(
-                "signature" => $this->get_signature($data),
+                "signature" => $this->get_signature(),
             ),
         );
 
