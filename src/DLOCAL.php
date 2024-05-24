@@ -81,6 +81,7 @@ class DLOCAL
     /**
      * Create a payment
      * @param array $data
+     * @param boolean $sandbox
      * @return array(json)
      */
     public function create_payment($data, $sandbox = false)
@@ -98,11 +99,12 @@ class DLOCAL
         $result = DLOCALRestClient::post($request);
 
         return $result;
-    }
+    }   
 
     /**
      * Create a secure payment
      * @param array $data
+     * @param boolean $sandbox
      * @return array(json)
      */
     public function create_secure_payment($data, $sandbox = false)
@@ -118,6 +120,27 @@ class DLOCAL
         );
 
         $result = DLOCALRestClient::post($request);
+        return $result;
+    }
+
+
+    /**
+     * Get a payment
+     * @param string $id
+     * @param boolean $sandbox
+     * @return array(json)
+     */
+    public function get_payment($id, $sandbox = false) {
+        $request = array(
+            "uri" => "/payments/{$id}",
+            "sandbox" => $sandbox,
+            "headers" => $this->headers,
+            "headers_custom" => array(
+                "signature" => $this->get_signature($data),
+            ),
+        );
+
+        $result = DLOCALRestClient::get($request);
         return $result;
     }
 
